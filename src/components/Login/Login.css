@@ -1,0 +1,47 @@
+.login {
+    display: flex;
+    flex-direction: column;
+    padding-left: 442px;
+    padding-right: 442px;
+}
+
+.login__logo {
+    margin: 0;
+    padding: 0;
+    background-image: url(../../images/logo.svg);
+    background-repeat: no-repeat;
+    min-width: 38px;
+    min-height: 38px;
+    margin-top: 70px;
+
+}
+
+.login__title {
+    font-weight: 500;
+    font-size: 24px;
+    color: #fff;
+    margin: 0;
+    padding-bottom: 20px;
+    padding-top: 40px;
+}
+
+.login__form {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 179px;
+}
+
+
+
+.login__question {
+    font-weight: 400;
+    font-size: 14px;
+    text-align: center;
+    color: #8b8b8b;
+}
+
+.login__subtitle_link {
+    color: #4285f4;
+    text-decoration: none;
+    padding-left: 6px;
+}

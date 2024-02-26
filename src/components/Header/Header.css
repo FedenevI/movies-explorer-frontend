@@ -1,0 +1,224 @@
+.header {
+    padding-left: 70px;
+    padding-right: 70px;
+    max-height: 74px;
+    background: #073042;
+}
+
+@media screen and (max-width:1023px) {
+    .header {
+        padding-left: 30px;
+        padding-right: 30px;
+    }
+}
+
+@media screen and (max-width:767px) {
+    .header {
+        padding-left: 14px;
+        padding-right: 14px;
+    }
+}
+
+.header_black {
+    background: #202020;
+}
+
+.header__logo {
+    margin: 0;
+    width: 38px;
+    height: 38px;
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-image: url(../../images/logo.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+
+/* logout header */
+.header__logout {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.header__auth {
+    padding-top: 21px;
+    padding-bottom: 21px;
+    display: flex;
+    align-items: center;
+
+}
+
+@media screen and (max-width:767px) {
+    .header__auth {
+        padding-top: 14px;
+        padding-bottom: 14px;
+    }
+}
+
+.header__link {
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 133%;
+    text-decoration: none;
+    text-align: center;
+}
+
+@media screen and (max-width:767px) {
+    .header__link {
+        font-size: 10px;
+        line-height: 160%;
+    }
+}
+
+
+.header__link_signup {
+    color: #fff;
+    padding-right: 30px;
+
+}
+
+@media screen and (max-width:767px) {
+    .header__link_signup {
+        padding-right: 14px;
+    }
+}
+
+.header__link_signin {
+    display: flex;
+    color: #000;
+    background: #3ddc84;
+    min-width: 76px;
+    min-height: 32px;
+    justify-content: center;
+    align-items: center;
+    border-radius: 3px;
+}
+
+@media screen and (max-width:767px) {
+    .header__link_signin {
+        min-width: 54px;
+        min-height: 26px;
+    }
+}
+
+/* logout header */
+
+
+
+
+
+/* log header */
+.header__login {
+    display: flex;
+    flex-direction: row;
+
+}
+
+@media screen and (max-width:1023px) {
+    .header__login {
+        justify-content: space-between;
+    }
+}
+
+.header__movies {
+    padding-left: 45px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+}
+
+.header__movie {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 138%;
+    text-align: right;
+    color: #fff;
+    text-decoration: none;
+}
+
+.header__saved {
+    font-weight: 400;
+    font-size: 13px;
+    line-height: 138%;
+    text-align: right;
+    color: #fff;
+    text-decoration: none;
+    padding-left: 16px;
+}
+
+.header__account {
+    display: flex;
+    gap: 7px;
+    align-items: center;
+    padding-top: 21px;
+    padding-bottom: 21px;
+    margin-left: auto;
+    text-decoration: none;
+    border-radius: 40px;
+}
+
+.header__name {
+    margin: 0;
+    font-weight: 500;
+    font-size: 13px;
+    line-height: 92%;
+    color: #fff;
+
+}
+
+.header__navigate {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.header__icon {
+    margin-bottom: 3px;
+    margin-right: 3px;
+    margin-top: 3px;
+    border-radius: 50px;
+    width: 26px;
+    height: 26px;
+    background: #0f4157;
+    background-image: url(../../images/icon__COLOR_icon-main.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 12px;
+}
+
+@media screen and (max-width: 1023px) {
+    .header__icon {
+        background: #313131;
+        background-image: url(../../images/icon__COLOR_icon-main.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}
+
+.header__menu {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background-image: url('../../images/menu-icon__COLOR_icon-color.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    min-width: 44px;
+    min-height: 44px;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+
+}
+
+@media screen and (max-width:319px) {
+    .header__menu {
+        min-width: 40px;
+        min-height: 43px;
+        background-image: url('../../images/guard.png');
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+}

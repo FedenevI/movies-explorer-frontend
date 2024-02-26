@@ -1,0 +1,63 @@
+.navtab {
+    display: flex;
+}
+
+.navtab__navigate {
+    display: flex;
+    width: 100%;
+    background: #272727;
+    justify-content: center;
+}
+
+.navtab__links {
+    margin: 0;
+    padding: 25px 0 25px 0;
+    display: flex;
+    list-style-type: none;
+    gap: 40px;
+}
+
+@media screen and (max-width: 1023px) {
+    .navtab__links {
+        margin: 0;
+        padding: 24px 0 24px 0;
+        display: flex;
+        list-style-type: none;
+        gap: 40px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .navtab__links {
+        margin: 0;
+        padding: 23px 0 25px 0;
+        display: flex;
+        list-style-type: none;
+        gap: 24px;
+    }
+}
+
+.navtab__link {
+    font-weight: 400;
+    font-size: 13px;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+    color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+    .navtab__link {
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 150%;
+        text-decoration: underline;
+        text-decoration-skip-ink: none;
+        text-align: center;
+        color: #fff;
+    }
+
+}
+
+.navtab__link:hover {
+    opacity: 0.7;
+}

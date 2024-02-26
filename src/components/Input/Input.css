@@ -1,0 +1,89 @@
+.input__label {
+    display: flex;
+    flex-direction: column;
+    font-weight: 400;
+    font-size: 10px;
+    color: #8b8b8b;
+    /* padding-bottom: 10px;
+    padding-top: 20px; */
+    /* height: 90px; */
+    padding: 0;
+}
+
+.input__fieldset {
+    font-weight: 400;
+    font-size: 10px;
+    color: #8b8b8b;
+    /* padding-bottom: 10px;
+    padding-top: 20px; */
+    height: 90px;
+    outline: none;
+    border: none;
+}
+
+.input {
+    border-radius: 8px;
+    width: 396px;
+    height: 46px;
+    background: #2f2f2f;
+    border: none;
+    font-weight: 400;
+    font-size: 13px;
+    color: #fff;
+}
+
+.input:focus {
+    outline: 1px solid #3ddc84;
+}
+
+.input__error {
+    outline: 1px solid #ee3465;
+
+}
+
+.input__error:focus {
+    outline: 1px solid #ee3465;
+}
+
+.input__message {
+    margin: 0;
+    padding: 0;
+    font-weight: 400;
+    font-size: 10px;
+    color: #ee3465;
+    padding-bottom: 10px;
+    min-height: 20px;
+}
+
+.input__button {
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    color: #fff;
+    background: #4285f4;
+    border-radius: 3px;
+    width: 396px;
+    height: 45px;
+    cursor: pointer;
+}
+
+.asd {
+    margin-top: 210px;
+    min-height: 67px;
+}
+
+.input__button:hover {
+    opacity: 0.8;
+}
+
+.input__button_disabled {
+    font-weight: 500;
+    font-size: 14px;
+    text-align: center;
+    color: #c2c2c2;
+    background: #f8f8f8;
+    border-radius: 3px;
+    width: 396px;
+    height: 45px;
+    cursor: unset;
+}

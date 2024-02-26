@@ -1,0 +1,108 @@
+.portfolio {
+    padding-bottom: 125px;
+    padding-left: 70px;
+    padding-right: 70px;
+    background: #202020;
+}
+
+@media screen and (max-width: 1023px) {
+    .portfolio {
+        padding-left: 50px;
+        padding-right: 50px;
+        padding-bottom: 70px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio {
+        padding-left: 14px;
+        padding-right: 14px;
+        padding-bottom: 70px;
+    }
+}
+
+.portfolio__title {
+    margin: 0;
+    padding-bottom: 50px;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 111%;
+    color: #8b8b8b;
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__title {
+        padding-bottom: 40px;
+        font-size: 14px;
+        line-height: 143%;
+    }
+}
+
+.portfolio__lists {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.portfolio__link {
+    text-decoration: none;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #424242;
+    display: flex;
+    justify-content: space-between;
+}
+
+.portfolio__link_type_last {
+    margin-bottom: 0;
+}
+
+.portfolio__subtitle {
+    padding-bottom: 19px;
+    margin: 0;
+    font-weight: 400;
+    font-size: 30px;
+    line-height: 167%;
+    letter-spacing: -0.04em;
+    color: #fff;
+}
+
+@media screen and (max-width: 1023px) {
+    .portfolio__subtitle {
+        font-size: 28px;
+        line-height: 179%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .portfolio__subtitle {
+        font-size: 18px;
+        line-height: 156%;
+    }
+}
+
+.portfolio__button {
+    width: 29px;
+    height: 60px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    background-image: url(../../images/text__COLOR_font-main.svg);
+    background-repeat: no-repeat;
+    background-position: 4px 18px;
+    background-size: 20px 18px;
+    transition: opacity .3s linear;
+}
+
+
+@media screen and (max-width: 767px) {
+    .portfolio__button {
+        width: 18px;
+        height: 28px;
+        background-color: transparent;
+        background-image: url(../../images/text__COLOR_font-main.svg);
+        background-repeat: no-repeat;
+        background-position: 1px 7px;
+        background-size: 13px 11px;
+    }
+}
