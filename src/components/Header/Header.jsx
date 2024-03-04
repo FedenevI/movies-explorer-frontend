@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
 import './Header.css';
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import PopUp from '../Popup/Popup.jsx';
 
 export default function Header({ type, setLoggedIn }) {
+    const { pathname } = useLocation();
+
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [windowWidth, setWindowWidth] = useState(() => {
         if (window.innerWidth > 1023) {
@@ -29,7 +31,7 @@ export default function Header({ type, setLoggedIn }) {
 
     return (
         <>
-            <header className={`header ${type !== "green" ? 'header_black' : ''} `}>
+            <header className={`header ${type !== "green" ? 'header-black' : ''} `}>
 
                 {!setLoggedIn ? (
                     <section className='header__logout'>
@@ -47,12 +49,12 @@ export default function Header({ type, setLoggedIn }) {
                         ) : (
                             <nav className='header__navigate'>
                                 <div className='header__movies'>
-                                    <Link to='/movies' className='header__movie'>Фильмы</Link>
-                                    <Link to='/saved-movies' className="header__saved">Сохранённые фильмы</Link>
+                                    <Link to='/movies' className={`header__movie ${pathname === '/movies' ? 'header__active' : ''}`}>Фильмы</Link>
+                                    <Link to='/saved-movies' className={`header__saved ${pathname === '/saved-movies' ? 'header__active' : ''} `}>Сохранённые фильмы</Link>
                                 </div>
                                 <Link to='/profile' className='header__account' href="#">
                                     <p className='header__name'>Аккаунт</p>
-                                    <div className='header__icon' />
+                                    <div className={`header__icon ${type === 'green' ? '' : 'header__icon-black'}`} />
                                 </Link>
                             </nav>
                         )}

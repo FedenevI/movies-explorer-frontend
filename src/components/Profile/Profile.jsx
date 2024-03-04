@@ -16,7 +16,7 @@ export default function Profile() {
     return (
         <>
             <Header type="black" setLoggedIn={true} />
-            <main className='profile'>
+            <main className='profile__main'>
                 <h1 className='profile__title'>Привет, Виталий!</h1>
 
                 <Form className='profile__form' >
@@ -38,8 +38,8 @@ export default function Profile() {
                         isButtoneError={isButtoneError}
                     />
                 </Form>
-
             </main>
+            <footer className='profile__footer'></footer>
         </>
     )
 }

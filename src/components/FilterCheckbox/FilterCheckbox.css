@@ -6,6 +6,13 @@
     margin: 0;
 }
 
+@media screen and (max-width: 1023px) {
+    .filter {
+        padding-bottom: 50px;
+
+    }
+}
+
 .filter__name {
     margin: 0;
     padding: 0;
@@ -14,6 +21,15 @@
     line-height: 129%;
     color: #fff;
     padding-left: 12px;
+}
+
+@media screen and (max-width: 767px) {
+    .filter__name {
+        font-weight: 400;
+        font-size: 11px;
+        line-height: 164%;
+        color: #fff;
+    }
 }
 
 .filter__label {

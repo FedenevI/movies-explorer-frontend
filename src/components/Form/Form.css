@@ -1,4 +1,7 @@
-.Form {
+.form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    padding-top: 41px;
+    min-height: 379px;
 }
