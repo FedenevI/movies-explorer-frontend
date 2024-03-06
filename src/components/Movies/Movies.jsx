@@ -1,3 +1,4 @@
+import './Movies.css'
 import Header from "../Header/Header";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import SearchForm from "../SearchForm/SearchForm.jsx"
@@ -8,7 +9,7 @@ export default function Movies() {
     return (
         <>
             <Header type="black" setLoggedIn={true} />
-            <main>
+            <main className="movies">
                 <SearchForm />
                 <FilterCheckbox />
                 <MoviesCardList />

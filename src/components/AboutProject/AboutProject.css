@@ -26,7 +26,7 @@
 
 .project__title {
     margin: 0;
-    padding-bottom: 23px;
+    padding-bottom: 22px;
     font-weight: 400;
     font-size: 22px;
     line-height: 121%;
@@ -54,7 +54,7 @@
     grid-template-columns: repeat(2, minmax(0, auto));
     column-gap: 40px;
     row-gap: 26px;
-    padding-bottom: 110px;
+    padding-bottom: 111px;
     padding-top: 70px;
 }
 

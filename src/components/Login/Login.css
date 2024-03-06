@@ -1,8 +1,35 @@
-.login {
+.login__main {
     display: flex;
     flex-direction: column;
-    padding-left: 442px;
-    padding-right: 442px;
+    /* padding-left: 442px;
+    padding-right: 442px; */
+    margin: 0 auto;
+    min-width: 396px;
+}
+
+@media screen and (max-width: 767px) {
+    .login__main {
+        min-width: 260px;
+    }
+}
+
+.login__header {
+    min-width: 396px;
+    display: flex;
+    flex-direction: column;
+    /* padding-left: 442px;
+    padding-right: 442px; */
+    margin: 0 auto;
+    gap: 41px;
+}
+
+
+@media screen and (max-width: 767px) {
+    .login__header {
+        min-width: 260px;
+        gap: 50px;
+
+    }
 }
 
 .login__logo {
@@ -13,7 +40,19 @@
     min-width: 38px;
     min-height: 38px;
     margin-top: 70px;
+}
 
+@media screen and (max-width: 1023px) {
+    .login__logo {
+        margin-top: 232px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .login__logo {
+        margin-top: 56px;
+        margin-left: 111px;
+    }
 }
 
 .login__title {
@@ -21,8 +60,21 @@
     font-size: 24px;
     color: #fff;
     margin: 0;
-    padding-bottom: 20px;
-    padding-top: 40px;
+
+}
+
+@media screen and (max-width: 1023px) {
+    .login__title {
+        padding-bottom: 0;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .login__title {
+        text-align: center;
+        padding-bottom: 40px;
+    }
+
 }
 
 .login__form {
@@ -34,14 +86,26 @@
 
 
 .login__question {
+    margin: 0;
+    padding-top: 15px;
     font-weight: 400;
     font-size: 14px;
     text-align: center;
     color: #8b8b8b;
 }
 
-.login__subtitle_link {
+@media screen and (max-width: 767px) {
+    .login__question {
+        font-size: 12px;
+    }
+}
+
+.login__subtitle {
     color: #4285f4;
     text-decoration: none;
     padding-left: 6px;
+}
+
+.login__footer {
+    min-height: 70px;
 }

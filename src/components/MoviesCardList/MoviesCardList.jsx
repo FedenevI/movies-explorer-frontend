@@ -43,6 +43,14 @@ export default function MoviesCardList() {
         return () => { window.removeEventListener('resize', handleResize) }
     }, []);
 
+    useEffect(() => {
+        if (shownImages >= arrayCard.length && (window.innerWidth >= 1023)) {
+            const elementsList = document.querySelector(".elements__list");
+            elementsList.style.paddingBottom = "270px";
+        }
+    }, [shownImages, arrayCard.length]);
+
+
     return (
         <section className="elements">
             {isLoading ? (

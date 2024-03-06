@@ -17,10 +17,10 @@ export default function Input({ inputType, placeholder, isEditing, onToggleEdit,
     return (
         <>
             {(inputType === 'name' || inputType === 'email' || inputType === 'password') && (
-                <fieldset className='input__fieldset' disabled={pathname === '/profile' && !isEditing}>
-                    <legend className='input__label'>{name}</legend>
+                <fieldset className={`input__fieldset ${pathname === '/profile' ? "input__fieldset_profile" : ''}`} disabled={pathname === '/profile' && !isEditing}>
+                    <label className={`input__label ${pathname === '/profile' ? "input__label_profile" : ''}`}>{name}</label>
                     <input
-                        className={`input ${errors?.[inputType] ? 'input__error' : ''}`}
+                        className={`input ${errors?.[inputType] ? 'input__error' : ''} ${pathname === '/profile' ? 'input__profile' : ''}`}
                         type={type}
                         placeholder={placeholder}
                         {...register(inputType, {
@@ -45,21 +45,21 @@ export default function Input({ inputType, placeholder, isEditing, onToggleEdit,
                             )
                         })}
                     />
-                    {errors?.[inputType] && <p className='input__message'>{errors?.[inputType]?.message}</p>}
+                    <p className={`input__message ${pathname === '/profile' ? "input__message_profile" : ''}`}>{errors?.[inputType]?.message}</p>
                 </fieldset>
             )}
 
             {inputType === 'submit' && (
-                <buttone className='asd'>
-                    {<p className='input__message'>{!isValid && isErrorSubmit && isMassegeShow}</p>}
+                <div className={`button ${pathname === '/signin' ? 'button__margin' : ''}`}>
+                    <p className='input__message'>{isButtoneError && !isValid && isErrorSubmit && isMassegeShow}</p>
                     <input className={`input__button ${!isValid ? 'input__button_disabled' : ''}`}
                         type='submit' disabled={!isValid} value={value} onClick={handleError} />
-                </buttone>
+                </div>
             )}
 
             {inputType === 'edit' && (
                 <>
-                    <buttone className='asd'>
+                    <div className='buttonedit'>
                         {<p className='input__message'>{isButtoneError && isEditing && !isValid && isMassegeShow}</p>}
                         <input
                             className={`profile__button ${isEditing ? 'profile__button_save' : ''} 
@@ -69,7 +69,7 @@ export default function Input({ inputType, placeholder, isEditing, onToggleEdit,
                             value={isEditing ? 'Сохранить' : 'Редактировать'}
                             disabled={isEditing && !isValid}
                         />
-                    </buttone>
+                    </div>
                     {!isEditing && <Link to='/' className='profile__subtitle_link' >Выйти из аккаунта</Link>}
                 </>
             )

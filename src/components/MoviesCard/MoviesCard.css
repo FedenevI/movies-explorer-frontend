@@ -1,14 +1,52 @@
+.element {
+    border-radius: 6px;
+    list-style-type: none;
+    background-color: #222;
+}
+
+.element:hover {
+    cursor: pointer;
+}
+
+.element:hover .element__trash {
+    opacity: 1;
+}
+
+
 .element__img {
     width: 100%;
     max-height: 203px;
     object-fit: cover;
     display: block;
+}
 
+@media screen and (max-width: 1023px) {
+    .element__img {
+        width: 100%;
+        max-height: 190px;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .element__img {
+        width: 100%;
+        max-height: 168px;
+        object-fit: cover;
+        display: block;
+    }
 }
 
 .element__description {
     display: flex;
     flex-direction: column;
+    gap: 8px;
+}
+
+.element__description-gap {
+
+    gap: 0;
 }
 
 .element__sign {
@@ -25,7 +63,31 @@
     margin: 0;
 }
 
+
+@media screen and (max-width: 1023px) {
+    .element__title {
+        font-weight: 500;
+        font-size: 13px;
+        color: #fff;
+        padding-top: 15px;
+        padding-left: 16px;
+        margin: 0;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .element__title {
+        font-weight: 500;
+        font-size: 12px;
+        color: #fff;
+        padding-top: 14px;
+        padding-left: 14px;
+        margin: 0;
+    }
+}
+
 .element__subtitle {
+    margin: 0;
     font-weight: 400;
     font-size: 11px;
     color: #8b8b8b;
@@ -34,18 +96,60 @@
     padding-top: 10px;
 }
 
+@media screen and (max-width: 1023px) {
+    .element__subtitle {
+        margin: 0;
+        font-weight: 400;
+        font-size: 11px;
+        color: #8b8b8b;
+        padding-left: 16px;
+        padding-bottom: 14px;
+        padding-top: 8px;
+    }
+}
+
+
+@media screen and (max-width: 767px) {
+    .element__subtitle {
+        margin: 0;
+        font-weight: 400;
+        font-size: 11px;
+        color: #8b8b8b;
+        padding-left: 13px;
+        padding-bottom: 14px;
+        padding-top: 6px;
+    }
+}
+
 .element__like {
     background-image: url(../../images/save4d.svg);
     background-repeat: no-repeat;
     background-size: contain;
     width: 30px;
     height: 30px;
-    background-color: #202020;
+    background-color: #222;
     cursor: pointer;
     padding: 0;
     margin-top: 9px;
     margin-right: 16px;
     border: none;
+}
+
+@media screen and (max-width: 1023px) {
+    .element__like {
+        margin-right: 13px;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .element__like {
+        margin-top: 7px;
+        margin-right: 10px;
+    }
+}
+
+.element__like:hover {
+    opacity: 0.8;
 }
 
 .element__like_active {
@@ -54,7 +158,7 @@
     background-size: contain;
     width: 30px;
     height: 30px;
-    background-color: #202020;
+    background-color: #222;
     cursor: pointer;
     padding: 0;
     margin-top: 9px;
@@ -62,14 +166,34 @@
     border: none;
 }
 
+@media screen and (max-width: 1023px) {
+    .element__like_active {
+        margin-right: 13px;
+    }
+}
+
+@media screen and (max-width: 1023px) {
+    .element__like_active {
+        margin-top: 7px;
+        margin-right: 10px;
+    }
+}
+
 .element__trash {
     background-image: url(../../images/closebutton.svg);
     background-repeat: no-repeat;
     background-size: contain;
-    background-color: #202020;
+    background-color: #222;
     border: none;
     cursor: pointer;
     width: 8px;
     height: 8px;
-    margin-top: 20px;
+    display: flex;
+    margin-right: 23px;
+    margin-top: 19px;
+    opacity: 0;
+}
+
+.element__trash:hover {
+    opacity: 0.8;
 }

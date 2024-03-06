@@ -3,7 +3,7 @@ import './NavTab.css';
 export default function NavTab() {
 
     return (
-        <section className='navtab'>
+        <div className='navtab'>
             <nav className='navtab__navigate'>
                 <ul className='navtab__links'>
                     <li><a href='#aboutProject' className="navtab__link">О проекте</a></li>
@@ -11,6 +11,6 @@ export default function NavTab() {
                     <li><a href='#aboutMe' className='navtab__link'>Студент</a></li>
                 </ul>
             </nav>
-        </section>
+        </div>
     )
 }

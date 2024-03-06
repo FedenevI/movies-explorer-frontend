@@ -20,7 +20,7 @@ export default function MoviesCard() {
                 alt={`Изображение 33 слова о дизайне`}
                 src={imageCard}
             />
-            <div className="element__description">
+            <div className={`element__description ${pathname === '/movies' ? 'element__description-gap' : ''}`}>
                 <div className="element__sign">
                     <h2 className="element__title">{`33 слова о дизайне`}</h2>
                     {pathname === '/movies' ?

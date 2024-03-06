@@ -15,7 +15,7 @@ export default function Form({ children }) {
 
     return (
         <FormProvider {...{ register, formState: { isValid, errors } }}>
-            <form noValidate onSubmit={handleSubmit(onSubmit)} className='Form' autoComplete="off">
+            <form noValidate onSubmit={handleSubmit(onSubmit)} className='form' autoComplete="off">
                 {children}
             </form>
         </FormProvider>

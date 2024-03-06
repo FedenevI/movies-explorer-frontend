@@ -11,7 +11,7 @@ import Footer from '../Footer/Footer.jsx';
 export default function Main() {
     return (
         <>
-            <Header type="green" setLoggedIn={true} />
+            <Header type="green" setLoggedIn={false} />
             <main className='main'>
                 <Promo />
                 <NavTab />
