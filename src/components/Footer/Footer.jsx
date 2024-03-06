@@ -8,8 +8,8 @@ export default function Footer() {
             <div className="footer__container">
                 <p className="footer__subtitle">© 2024</p>
                 <nav className="footer__nav">
-                    <Link to='https://practicum.yandex.ru/' target='_blank' className="footter__link">Яндекс.Практикум</Link>
-                    <Link to='https://github.com/FedenevI' target='_blank' className="footter__link">Github</Link>
+                    <Link to='https://practicum.yandex.ru/' target='_blank' className="footer__link">Яндекс.Практикум</Link>
+                    <Link to='https://github.com/FedenevI' target='_blank' className="footer__link">Github</Link>
                 </nav>
             </div>
         </footer>

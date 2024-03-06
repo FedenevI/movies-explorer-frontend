@@ -85,7 +85,7 @@
     }
 }
 
-.footter__link {
+.footer__link {
     margin: 0;
     font-weight: 400;
     font-size: 13px;
@@ -96,7 +96,7 @@
 
 
 @media screen and (max-width: 767px) {
-    .footter__link {
+    .footer__link {
 
         font-size: 12px;
 
