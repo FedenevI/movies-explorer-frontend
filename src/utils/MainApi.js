@@ -104,7 +104,7 @@ class ApiMain {
 
 /*создаю экземпляр класса Api*/
 const apiMain = new ApiMain({
-    baseUrl: 'https://api.diplom-movies-fil.nomoredomainsicu.ru',
+    baseUrl: 'api.diplom.fedenev.nomoredomainswork.ru',
 });
 
 export default apiMain
