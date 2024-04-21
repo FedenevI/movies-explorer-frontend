@@ -3,3 +3,6 @@
 # diplom
 ## https://diplom.fedenev.nomoredomainswork.ru/
 
+## pull request
+### https://github.com/FedenevI/movies-explorer-frontend/pull/2
+
