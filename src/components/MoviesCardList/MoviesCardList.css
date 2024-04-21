@@ -33,6 +33,11 @@
     padding-bottom: 10px;
 }
 
+.elements__error {
+    text-align: center;
+    color: #fff;
+}
+
 @media screen and (max-width: 1023px) {
     .elements__list {
         display: grid;

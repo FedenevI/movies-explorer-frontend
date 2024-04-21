@@ -1,5 +1,3 @@
-.search {}
-
 .search__container {
     padding-top: 60px;
     padding-bottom: 41px;
@@ -42,6 +40,10 @@
     outline: none;
     padding-left: 22px;
     padding-bottom: 5px;
+}
+
+.search__input:focus {
+    outline: 1px solid #3ddc84;
 }
 
 @media screen and (max-width: 767px) {

@@ -44,6 +44,10 @@
     padding: 0;
 }
 
+.portfolio__list:hover {
+    opacity: 0.8;
+}
+
 .portfolio__link {
     text-decoration: none;
     margin-bottom: 20px;

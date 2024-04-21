@@ -24,7 +24,10 @@ export default function Login() {
                         name='Пароль'
                         type='password'
                         placeholder='Пароль' />
-                    <Input inputType='submit' value="Войти" />
+                    <Input
+                        inputType='submit'
+                        value="Войти"
+                    />
                 </Form>
                 <p className='login__question'>Ещё не зарегистрированы?
                     <Link to='/signup' className='login__subtitle' href='#'>Регистрация</Link>

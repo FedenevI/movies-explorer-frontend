@@ -2,17 +2,13 @@ import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.jsx';
 import Preloader from '../Preloader/Preloader.jsx';
 import { useEffect, useState } from 'react';
+import { useCtx } from '../Context/Context.jsx';
+import { useLocation } from 'react-router-dom';
 
 export default function MoviesCardList() {
-    let arrayCard = [];
-    let MovieCard = <MoviesCard />;
-
-    for (let i = 0; i < 20; i++) {
-        arrayCard.push(MovieCard);
-    }
-
-    const [isLoading, setIsLoading] = useState(true);
-    const [shownImages, setShownImages] = useState(12);
+    const { pathname } = useLocation();
+    const { loadMovies, filteredMovies, filteredSavedMovies, searchValue, searchValueSaved, serverError, loading } = useCtx();
+    const [shownImages, setShownImages] = useState(0);
 
     const handleShowImage = () => {
         if (window.innerWidth >= 1023) {
@@ -35,38 +31,76 @@ export default function MoviesCardList() {
     };
 
     useEffect(() => {
-        setTimeout(() => {
-            setIsLoading(false);
-        }, 3000);
         handleResize();
         window.addEventListener('resize', handleResize);
         return () => { window.removeEventListener('resize', handleResize) }
     }, []);
 
     useEffect(() => {
-        if (shownImages >= arrayCard.length && (window.innerWidth >= 1023)) {
-            const elementsList = document.querySelector(".elements__list");
-            elementsList.style.paddingBottom = "270px";
-        }
-    }, [shownImages, arrayCard.length]);
+        loadMovies()
+    }, [])
 
+    const searchFilterMovie = filteredMovies.filter((movie) => movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()))
+    const searchFilterMovieSaved = filteredSavedMovies.filter((movie) => movie.nameRU.toLowerCase().includes(searchValueSaved.toLowerCase()))
 
     return (
         <section className="elements">
-            {isLoading ? (
-                <Preloader />
+            {pathname === '/movies' ? (
+                loading ? (
+                    <Preloader />
+                ) : (
+                    <>
+                        {(searchValue === '') ? (
+                            <p className="elements__error">Чтобы увидеть список фильмов, выполните поиск</p>
+                        ) : serverError ? (
+                            <p className="elements__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.</p>
+                        )
+
+                            : searchFilterMovie.length === 0 ? (
+                                <p className="elements__error">Ничего не найдено</p>
+                            ) : (
+                                <>
+                                    <ul className="elements__list">
+                                        {searchFilterMovie
+                                            .slice(0, shownImages)
+                                            .map(movies => (
+                                                <li className='element' key={movies.id}>
+                                                    <MoviesCard  {...movies} />
+                                                </li>
+                                            ))}
+                                    </ul>
+                                    {searchFilterMovie.length > shownImages && (
+                                        <button type="button" onClick={handleShowImage} className='elements__more'>Ещё</button>
+                                    )}
+                                </>
+                            )}
+                    </>
+                )
             ) : (
-                <>
-                    <ul className="elements__list" >
-                        {arrayCard.slice(0, shownImages).map((card, index) =>
-                            <li className='element' key={index}>{card}</li>
+                loading ? (
+                    <Preloader />
+                ) : (
+                    <>
+                        {serverError ? (
+                            <p className="elements__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.</p>
+                        ) : filteredSavedMovies.length === 0 ? (
+                            <p className="elements__error">Нет сохранённых фильмов</p>
+                        ) : searchFilterMovieSaved.length === 0 ? (
+                            <p className="elements__error">Ничего не найдено</p>
+                        ) : (
+                            <ul className="elements__list">
+                                {searchFilterMovieSaved
+                                    .slice(0, shownImages)
+                                    .map(movies => (
+                                        <li className='element' key={movies._id}>
+                                            <MoviesCard  {...movies} />
+                                        </li>
+                                    ))}
+                            </ul>
                         )}
-                    </ul>
-                    {shownImages < arrayCard.length && (
-                        <button type="button" onClick={handleShowImage} className='elements__more'>Ещё</button>
-                    )}
-                </>
+                    </>)
             )}
         </section>
     )
+
 }

@@ -1,20 +1,19 @@
-import { useState } from 'react';
+
 import './FilterCheckbox.css';
+import { useCtx } from '../Context/Context';
 
 export default function FilterCheckbox() {
-
-    const [isChecked, setIsChecked] = useState(false);
+    const { MoviesFilter, toggler } = useCtx();
     const handleChange = () => {
-        setIsChecked(!isChecked);
+        MoviesFilter();
     }
-
     return (
         <div className='filter'>
             <label className="filter__label">
                 <input
                     className="filter__checkbox"
                     type="checkbox"
-                    checked={isChecked}
+                    checked={toggler}
                     onChange={handleChange}
                 />
                 <span className="filter__slider"></span>

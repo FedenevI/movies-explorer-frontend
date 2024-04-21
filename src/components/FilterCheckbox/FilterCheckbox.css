@@ -57,6 +57,10 @@
     transition: 0.4s;
 }
 
+.filter__slider:hover {
+    opacity: 0.8;
+}
+
 .filter__slider:before {
     position: absolute;
     content: "";

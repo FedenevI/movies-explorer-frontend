@@ -8,7 +8,9 @@ import Portfolio from '../Portfolio/Portfolio.jsx';
 import Header from '../Header/Header.jsx';
 import Footer from '../Footer/Footer.jsx';
 
+
 export default function Main() {
+
     return (
         <>
             <Header type="green" setLoggedIn={false} />

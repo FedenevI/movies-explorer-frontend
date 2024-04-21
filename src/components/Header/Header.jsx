@@ -2,10 +2,12 @@ import { useEffect, useState } from 'react';
 import './Header.css';
 import { Link, useLocation } from "react-router-dom";
 import PopUp from '../Popup/Popup.jsx';
+import { useCtx } from '../Context/Context';
 
-export default function Header({ type, setLoggedIn }) {
+
+export default function Header({ type }) {
     const { pathname } = useLocation();
-
+    const token = useCtx().token;
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [windowWidth, setWindowWidth] = useState(() => {
         if (window.innerWidth > 1023) {
@@ -33,7 +35,7 @@ export default function Header({ type, setLoggedIn }) {
         <>
             <header className={`header ${type !== "green" ? 'header-black' : ''} `}>
 
-                {!setLoggedIn ? (
+                {!token ? (
                     <section className='header__logout'>
                         <Link to='/' className='header__logo' />
                         <nav className='header__auth'>
