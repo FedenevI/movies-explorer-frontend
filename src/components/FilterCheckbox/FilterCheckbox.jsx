@@ -1,11 +1,23 @@
 
 import './FilterCheckbox.css';
 import { useCtx } from '../Context/Context';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 export default function FilterCheckbox() {
-    const { MoviesFilter, toggler } = useCtx();
+    const { pathname } = useLocation()
+    const { MoviesFilter, MoviesFilerSaved, movieToggler, savedMovieToggler, MoviesFilerSavedFalse } = useCtx();
+
+    useEffect(() => {
+        if (pathname === '/saved-movies') {
+            MoviesFilerSavedFalse()
+        }
+    }, [pathname])
+
     const handleChange = () => {
-        MoviesFilter();
+        pathname === '/movies' ?
+            MoviesFilter() :
+            MoviesFilerSaved()
     }
     return (
         <div className='filter'>
@@ -13,7 +25,8 @@ export default function FilterCheckbox() {
                 <input
                     className="filter__checkbox"
                     type="checkbox"
-                    checked={toggler}
+                    checked={pathname === '/movies' ?
+                        movieToggler : savedMovieToggler}
                     onChange={handleChange}
                 />
                 <span className="filter__slider"></span>

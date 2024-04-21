@@ -2,18 +2,19 @@ import './Input.css'
 import { useFormContext } from 'react-hook-form';
 import { Link, useLocation } from 'react-router-dom';
 import { useCtx } from '../Context/Context';
+import { useEffect, useState } from 'react';
 
-
-export default function Input({ inputType, placeholder, isEditing, onToggleEdit, name, type, value, isButtoneError }) {
+export default function Input({ inputType, inputValue, isEditing, onToggleEdit, name, type, value, isButtoneError }) {
     const { register, formState: { isValid, errors } } = useFormContext()
     const { pathname } = useLocation()
-    const setToken = useCtx().setToken;
-    const { isErrorSubmit, loading } = useCtx();
+    const { isErrorSubmit, loading, clearContextAndLocalStorage } = useCtx();
+    const [values, setValues] = useState(inputValue);
 
-    const logOut = () => {
-        localStorage.clear();
-        setToken(null)
-    }
+    const handleChange = (e) => {
+        setValues(e.target.value);
+    };
+
+
 
     return (
         <>
@@ -23,26 +24,37 @@ export default function Input({ inputType, placeholder, isEditing, onToggleEdit,
                     <input
                         className={`input ${errors?.[inputType] ? 'input__error' : ''} ${pathname === '/profile' ? 'input__profile' : ''}`}
                         type={type}
-                        placeholder={placeholder}
+                        value={values}
                         {...register(inputType, {
+                            ...(pathname === '/profile' ? { onChange: handleChange } : {}),
                             required: 'Запрещено не заполнять',
-                            ...(inputType === 'email' ?
+                            ...(inputType === 'name' ?
                                 {
                                     pattern: {
-                                        value: /^\S+@\S+\.\S+$/,
-                                        message: 'электропочта некоректна'
-                                    }
-                                } :
-                                {
-                                    minLength: {
-                                        value: 3,
-                                        message: '3 символа минимум'
+                                        value: /^[A-Za-zА-Яа-я\s-]+$/,
+                                        message: 'только латиница, кириллица, пробел или дефис'
                                     },
-                                    maxLength: {
-                                        value: 5,
-                                        message: '5 символов максимум'
+                                    minLength: {
+                                        value: 2,
+                                        message: '2 символа минимум'
+                                    },
+                                } :
+                                inputType === 'email' ?
+                                    {
+                                        pattern: {
+                                            value: /^\S+@\S+\.\S+$/,
+                                            message: 'электропочта некоректна'
+                                        }
+                                    } : {
+                                        minLength: {
+                                            value: 2,
+                                            message: '2 символа минимум'
+                                        },
+                                        maxLength: {
+                                            value: 30,
+                                            message: '30 символов максимум'
+                                        }
                                     }
-                                }
                             )
                         })}
                     />
@@ -72,7 +84,7 @@ export default function Input({ inputType, placeholder, isEditing, onToggleEdit,
                             disabled={isEditing && !isValid}
                         />
                     </div>
-                    {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={logOut}>Выйти из аккаунта</Link>}
+                    {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={clearContextAndLocalStorage}>Выйти из аккаунта</Link>}
                 </>
             )
             }

@@ -9,6 +9,7 @@ export default function Profile() {
     const [isEditing, setisEditing] = useState(false);
     const [isButtoneError, setisButtoneError] = useState(false);
 
+
     const handleSaveButton = () => {
         setisEditing((prev) => !prev);
         setisButtoneError((prev) => !prev);
@@ -16,6 +17,8 @@ export default function Profile() {
 
     const currentUser = useCtx().currentUser;
     const email = useCtx().email;
+
+
 
     return (
         <>
@@ -28,13 +31,14 @@ export default function Profile() {
                         inputType='name'
                         name="Имя"
                         type="text"
-                        placeholder={currentUser}
-                        isEditing={isEditing} />
+                        inputValue={currentUser}
+                        isEditing={isEditing}
+                    />
                     <Input
                         inputType='email'
                         name="E-mail"
                         type="email"
-                        placeholder={email}
+                        inputValue={email}
                         isEditing={isEditing} />
                     <Input
                         inputType='edit'
@@ -48,3 +52,4 @@ export default function Profile() {
         </>
     )
 }
+

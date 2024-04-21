@@ -1,28 +1,38 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
-import { getToken, getCurrentUser, getEmail, getToggler, getSearchValues, getSearchValueSaved } from "../../utils/localStorage";
+import { createContext, useContext, useState, useMemo } from "react";
+import { getToken, getCurrentUser, getEmail, getToggler, getSearchValues } from "../../utils/localStorage";
 import apiMovies from '../../utils/MoviesApi';
 import apiMain from "../../utils/MainApi";
 
-const CurrentUserContext = createContext({})
 
+const CurrentUserContext = createContext({})
 export const useCtx = () => useContext(CurrentUserContext)
 
 export const Context = ({ children }) => {
-    const [state, setState] = useState({
+    const initialState = {
+        login: false,
         loading: false,
         serverError: false,
         isErrorSubmit: '',
-        movies: [],
-        savedMovies: [],
+        movies: JSON.parse(localStorage.getItem('movies')) || [],
+        savedMovies: JSON.parse(localStorage.getItem('savedMovies')) || [],
         token: getToken('jwt'),
         currentUser: getCurrentUser('currentUser'),
         email: getEmail('email'),
-        toggler: Boolean(getToggler('toggler')),
+        movieToggler: Boolean(getToggler('movieToggler')),
+        savedMovieToggler: Boolean(getToggler('savedMovieToggler')),
         searchValue: getSearchValues('searchValues'),
-        searchValueSaved: getSearchValueSaved('SearchValueSaved')
-    })
+        searchValueSaved: '',
+    }
 
-    console.log(state)
+    const [state, setState] = useState(initialState);
+    const clearContextAndLocalStorage = () => {
+        setState(initialState);
+        localStorage.clear();
+    }
+
+    const setLogin = (valueBolean) => {
+        setState(prev => ({ ...prev, login: valueBolean }))
+    }
 
     const setToken = (token) => {
         setState(prev => ({ ...prev, token: token || null }))
@@ -30,6 +40,13 @@ export const Context = ({ children }) => {
     const setsearchValueSaved = (value) => {
         setState(prev => ({ ...prev, searchValueSaved: value }))
     }
+
+    const clearSearchValue = () => {
+        setState(prev => ({
+            ...prev,
+            searchValueSaved: ''
+        }))
+    };
 
     const setSearchValue = (value) => {
         setState(prev => ({ ...prev, searchValue: value }))
@@ -43,8 +60,15 @@ export const Context = ({ children }) => {
         }))
     }
 
+    const setMovies = (movies) => {
+        setState(prev => ({ ...prev, movies }));
+        localStorage.setItem('movies', JSON.stringify(movies));
+    }
+
+
     const setSavedMovies = (data) => {
         setState(prev => ({ ...prev, savedMovies: data }));
+        localStorage.setItem('savedMovies', JSON.stringify(data));
     }
 
     const setIsErrorSubmit = (value) => {
@@ -60,7 +84,6 @@ export const Context = ({ children }) => {
         try {
             await Promise.all([apiMovies.getMovies(), apiMain.getMovies(state.token)])
                 .then(([allMovies, userMovies]) => {
-                    console.log(userMovies)
                     setState(prev => ({
                         ...prev,
                         movies: allMovies,
@@ -79,22 +102,37 @@ export const Context = ({ children }) => {
     const MoviesFilter = () => {
         setState(prev => ({
             ...prev,
-            toggler: !prev.toggler
+            movieToggler: !prev.movieToggler
         }))
-        localStorage.setItem('toggler', JSON.stringify(!state.toggler))
+        localStorage.setItem('movieToggler', JSON.stringify(!state.movieToggler))
     }
 
     const filteredMovies = useMemo(() => {
-        return state.toggler ? state.movies.filter((movie) => movie.duration <= 40) : state.movies
-    }, [state.movies, state.toggler])
+        return state.movieToggler ? state.movies.filter((movie) => movie.duration <= 40) : state.movies
+    }, [state.movies, state.movieToggler])
+
+
+    const MoviesFilerSaved = () => {
+        setState(prev => ({
+            ...prev,
+            savedMovieToggler: !prev.savedMovieToggler
+        }))
+    }
+
+    const MoviesFilerSavedFalse = () => {
+        setState(prev => ({
+            ...prev,
+            savedMovieToggler: false
+        }))
+    }
 
     const filteredSavedMovies = useMemo(() => {
-        return state.toggler ? state.savedMovies.filter((movie) => movie.duration <= 40) : state.savedMovies;
-    }, [state.savedMovies, state.toggler]);
-
+        return state.savedMovieToggler ? state.savedMovies.filter((movie) => movie.duration <= 40) : state.savedMovies;
+    }, [state.savedMovies, state.savedMovieToggler]);
 
 
     const value = {
+        login: state.login,
         loading: state.loading,
         serverError: state.serverError,
         isErrorSubmit: state.isErrorSubmit,
@@ -102,13 +140,15 @@ export const Context = ({ children }) => {
         token: state.token,
         currentUser: state.currentUser,
         email: state.email,
-        toggler: state.toggler,
+        movieToggler: state.movieToggler,
+        savedMovieToggler: state.savedMovieToggler,
         savedMovies: state.savedMovies,
         searchValue: state.searchValue,
         searchValueSaved: state.searchValueSaved,
         filteredMovies,
         filteredSavedMovies,
         // методы:
+        setLogin,
         setToken,
         setUserData,
         loadMovies,
@@ -118,6 +158,11 @@ export const Context = ({ children }) => {
         setsearchValueSaved,
         setIsErrorSubmit,
         setLoading,
+        MoviesFilerSaved,
+        clearContextAndLocalStorage,
+        setMovies,
+        clearSearchValue,
+        MoviesFilerSavedFalse,
     }
 
 

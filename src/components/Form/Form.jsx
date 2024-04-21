@@ -14,7 +14,7 @@ export default function Form({ children }) {
     const setToken = useCtx().setToken;
     const token = useCtx().token;
     const setUserData = useCtx().setUserData;
-    const { setIsErrorSubmit, setLoading } = useCtx();
+    const { setIsErrorSubmit, setLoading, setLogin } = useCtx();
 
     const { handleSubmit, reset, formState: { isValid, errors }, register } = useForm({
         mode: 'onChange'
@@ -58,6 +58,7 @@ export default function Form({ children }) {
             const res = await apiMain.authorization(data.email, data.password)
             localStorage.setItem('jwt', res.token)
             setToken(res.token)
+            setLogin(true)
             let userData = await apiMain.getUserData(res.token)
             localStorage.setItem('currentUser', userData.name)
             localStorage.setItem('email', userData.email)
