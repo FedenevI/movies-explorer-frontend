@@ -7,7 +7,7 @@ import { useCtx } from '../Context/Context'
 import { Link } from 'react-router-dom';
 
 export default function Profile() {
-    const { toggleSuccsess, isEditing, setisEditing } = useCtx();
+    const { toggleSuccsess, isEditing, setisEditing, clearContextAndLocalStorage } = useCtx();
     // const [isEditing, setisEditing] = useState(false);
     const [isButtoneError, setisButtoneError] = useState(false);
 
@@ -27,7 +27,10 @@ export default function Profile() {
     const currentUser = useCtx().currentUser;
     const email = useCtx().email;
 
-
+    const LogOut = () => {
+        localStorage.clear();
+        clearContextAndLocalStorage()
+    }
 
     return (
         <>
@@ -52,7 +55,7 @@ export default function Profile() {
                     {!isEditing ? (
                         <>
                             <a className='profile__button_edit' onClick={setEdit}> Редактировать </a>
-                            <Link to='/' className='profile__subtitle_link' >Выйти из аккаунта</Link>
+                            <Link to='/' className='profile__subtitle_link' onClick={LogOut} >Выйти из аккаунта</Link>
                         </>
                     ) : (
 

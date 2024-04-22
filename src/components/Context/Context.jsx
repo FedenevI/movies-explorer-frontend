@@ -57,8 +57,6 @@ export const Context = ({ children }) => {
         localStorage.clear();
     }
 
-    console.log(state)
-
     const setLogin = (valueBolean) => {
         setState(prev => ({ ...prev, login: valueBolean }))
     }

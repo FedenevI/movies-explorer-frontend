@@ -14,7 +14,10 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
         setValues(e.target.value);
     };
 
-
+    const LogOut = () => {
+        localStorage.clear();
+        clearContextAndLocalStorage()
+    }
 
 
     return (
