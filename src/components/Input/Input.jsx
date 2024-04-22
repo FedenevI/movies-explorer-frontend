@@ -14,10 +14,7 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
         setValues(e.target.value);
     };
 
-    const LogOut = () => {
-        localStorage.clear();
-        clearContextAndLocalStorage()
-    }
+
 
 
     return (
@@ -80,7 +77,7 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
 
 
                     <div className='buttonedit'>
-                        {<p className='input__message'>{isErrorSubmit && !isButtoneError ? isErrorSubmit : loading ? 'Успешно' : ''}</p>}
+                        {<p className='input__message'>{isErrorSubmit && !isButtoneError ? isErrorSubmit : ''}</p>}
                         <input
                             className={`profile__button ${isEditing ? 'profile__button_save' : ''} 
                         ${!isValid && isEditing ? 'profile__button_save_disabled' : ''}`}
@@ -89,7 +86,7 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
                             disabled={isEditing && !isValid && (values === email)}
                         />
                     </div>
-                    {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={clearContextAndLocalStorage}>Выйти из аккаунта</Link>}
+                    {/* {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={clearContextAndLocalStorage}>Выйти из аккаунта</Link>} */}
 
 
                 </>

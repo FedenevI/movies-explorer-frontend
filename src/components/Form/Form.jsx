@@ -85,12 +85,20 @@ export default function Form({ children }) {
                 localStorage.setItem('email', userData.email);
                 setUserData(userData.name, userData.email);
                 setSuccess(true);
+                setIsErrorSubmit('Успешно');
+                setTimeout(() => {
+                    setIsErrorSubmit('');
+                }, 2000);
             } else {
                 setIsErrorSubmit('Отправляемые данные и текущие данные идентичны.');
+                setTimeout(() => {
+                    setIsErrorSubmit('');
+                }, 2000);
             }
             setTimeout(() => {
                 setisEditing(false);
             }, 2000);
+
         } catch (err) {
             console.error(`Ошибка при редактировании ${err}`);
             setIsErrorSubmit(errorsList(err));
