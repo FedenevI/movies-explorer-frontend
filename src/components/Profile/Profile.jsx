@@ -4,16 +4,25 @@ import Form from '../Form/Form.jsx';
 import Input from '../Input/Input.jsx';
 import Header from '../Header/Header.jsx';
 import { useCtx } from '../Context/Context'
+import { Link } from 'react-router-dom';
 
 export default function Profile() {
-    const [isEditing, setisEditing] = useState(false);
+    const { toggleSuccsess, isEditing, setisEditing } = useCtx();
+    // const [isEditing, setisEditing] = useState(false);
     const [isButtoneError, setisButtoneError] = useState(false);
 
 
     const handleSaveButton = () => {
-        setisEditing((prev) => !prev);
+        // setisEditing((prev) => !prev);
         setisButtoneError((prev) => !prev);
+        toggleSuccsess('');
+
     };
+
+    const setEdit = () => {
+        setisEditing(true)
+    }
+
 
     const currentUser = useCtx().currentUser;
     const email = useCtx().email;
@@ -40,12 +49,21 @@ export default function Profile() {
                         type="email"
                         inputValue={email}
                         isEditing={isEditing} />
-                    <Input
-                        inputType='edit'
-                        onToggleEdit={handleSaveButton}
-                        isEditing={isEditing}
-                        isButtoneError={isButtoneError}
-                    />
+                    {!isEditing ? (
+                        <>
+                            <a className='profile__button_edit' onClick={setEdit}> Редактировать </a>
+                            <Link to='/' className='profile__subtitle_link' >Выйти из аккаунта</Link>
+                        </>
+                    ) : (
+
+                        <Input
+                            inputType='edit'
+                            onToggleEdit={handleSaveButton}
+                            isEditing={isEditing}
+                            isButtoneError={isButtoneError}
+                        />)}
+
+
                 </Form>
             </main>
             <footer className='profile__footer'></footer>

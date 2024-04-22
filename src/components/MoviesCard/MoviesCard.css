@@ -197,3 +197,10 @@
 .element__trash:hover {
     opacity: 0.8;
 }
+
+@media (max-width: 767px) {
+    .element__trash {
+        opacity: 0.8;
+    }
+
+}

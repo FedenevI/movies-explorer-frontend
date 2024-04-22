@@ -3,11 +3,12 @@ import { useCtx } from '../Context/Context';
 import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 
+
 export default function SearchForm() {
     const { pathname } = useLocation();
     const [movieSearchInput, setMovieSearchInput] = useState('');
     const [error, setError] = useState('');
-    const { setSearchValue, setsearchValueSaved, clearSearchValue } = useCtx();
+    const { setSearchValue, setsearchValueSaved, clearSearchValue, filteredMovies, loadMovies, searchedOnce, setSearchedOnce } = useCtx();
 
     useEffect(() => {
         if (pathname === '/movies') {
@@ -19,24 +20,33 @@ export default function SearchForm() {
     }, [pathname]);
 
     const handleMovieSearchChange = (e) => {
+        if (!searchedOnce) {
+            loadMovies()
+            setSearchedOnce(true);
+        }
         setMovieSearchInput(e.target.value);
         setError('');
     };
 
-    const handleMovieSubmit = (e) => {
+
+    const handleMovieSubmit = async (e) => {
         e.preventDefault();
         if (!movieSearchInput.trim()) {
             setError('Нужно ввести ключевое слово');
-
         }
-
         if (pathname === '/movies') {
             setSearchValue(movieSearchInput);
             localStorage.setItem('searchValues', movieSearchInput);
+            const searchFilterMovie = filteredMovies.filter((movie) =>
+                movie.nameRU.toLowerCase().includes(localStorage.getItem('searchValues').toLowerCase()));
+            localStorage.setItem('searchFilterMovie', JSON.stringify(searchFilterMovie));
         } else if (pathname === '/saved-movies') {
             setsearchValueSaved(movieSearchInput)
         }
+
     };
+
+
 
     return (
         <section className='search'>
@@ -56,3 +66,4 @@ export default function SearchForm() {
         </section>
     );
 }
+

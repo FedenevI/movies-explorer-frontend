@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useMemo } from "react";
+import { createContext, useContext, useState, useMemo, useEffect } from "react";
 import { getToken, getCurrentUser, getEmail, getToggler, getSearchValues } from "../../utils/localStorage";
 import apiMovies from '../../utils/MoviesApi';
 import apiMain from "../../utils/MainApi";
@@ -9,6 +9,8 @@ export const useCtx = () => useContext(CurrentUserContext)
 
 export const Context = ({ children }) => {
     const initialState = {
+        success: false,
+        searchedOnce: false,
         login: false,
         loading: false,
         serverError: false,
@@ -22,13 +24,40 @@ export const Context = ({ children }) => {
         savedMovieToggler: Boolean(getToggler('savedMovieToggler')),
         searchValue: getSearchValues('searchValues'),
         searchValueSaved: '',
+        searchFilterMovie: JSON.parse(localStorage.getItem('searchFilterMovie') || "[]"),
+        isEditing: false,
     }
 
     const [state, setState] = useState(initialState);
+
+    const setisEditing = (data) => {
+        setState(prev => ({
+            ...prev,
+            isEditing: data,
+
+        }))
+    }
+
+    const setSuccess = (data) => {
+        setState(prev => ({
+            ...prev,
+            success: data
+        }))
+    }
+
+    const setSearchedOnce = (bool) => {
+        setState(prev => ({
+            ...prev,
+            searchedOnce: bool
+        }))
+    }
+
     const clearContextAndLocalStorage = () => {
         setState(initialState);
         localStorage.clear();
     }
+
+    console.log(state)
 
     const setLogin = (valueBolean) => {
         setState(prev => ({ ...prev, login: valueBolean }))
@@ -99,6 +128,9 @@ export const Context = ({ children }) => {
         }
     }
 
+
+
+
     const MoviesFilter = () => {
         setState(prev => ({
             ...prev,
@@ -130,8 +162,17 @@ export const Context = ({ children }) => {
         return state.savedMovieToggler ? state.savedMovies.filter((movie) => movie.duration <= 40) : state.savedMovies;
     }, [state.savedMovies, state.savedMovieToggler]);
 
+    const toggleSuccsess = (str) => {
+        setState(prev => ({
+            ...prev,
+            success: str
+        }))
+    }
 
     const value = {
+        isEditing: state.isEditing,
+        success: state.success,
+        searchedOnce: state.searchedOnce,
         login: state.login,
         loading: state.loading,
         serverError: state.serverError,
@@ -145,6 +186,7 @@ export const Context = ({ children }) => {
         savedMovies: state.savedMovies,
         searchValue: state.searchValue,
         searchValueSaved: state.searchValueSaved,
+        searchFilterMovie: state.searchFilterMovie,
         filteredMovies,
         filteredSavedMovies,
         // методы:
@@ -163,6 +205,12 @@ export const Context = ({ children }) => {
         setMovies,
         clearSearchValue,
         MoviesFilerSavedFalse,
+        toggleSuccsess,
+        setSearchedOnce,
+        setSuccess,
+        setisEditing
+
+
     }
 
 

@@ -7,12 +7,13 @@ import { useEffect, useState } from 'react';
 export default function Input({ inputType, inputValue, isEditing, onToggleEdit, name, type, value, isButtoneError }) {
     const { register, formState: { isValid, errors } } = useFormContext()
     const { pathname } = useLocation()
-    const { isErrorSubmit, loading, clearContextAndLocalStorage } = useCtx();
+    const { isErrorSubmit, loading, clearContextAndLocalStorage, succes, currentUser, email } = useCtx();
     const [values, setValues] = useState(inputValue);
 
     const handleChange = (e) => {
         setValues(e.target.value);
     };
+
 
 
 
@@ -73,21 +74,26 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
 
             {inputType === 'edit' && (
                 <>
+
+
                     <div className='buttonedit'>
-                        {<p className='input__message'>{isErrorSubmit && !isButtoneError ? isErrorSubmit : loading ? 'Отправка' : ''}</p>}
+                        {<p className='input__message'>{isErrorSubmit && !isButtoneError ? isErrorSubmit : loading ? 'Успешно' : ''}</p>}
                         <input
                             className={`profile__button ${isEditing ? 'profile__button_save' : ''} 
                         ${!isValid && isEditing ? 'profile__button_save_disabled' : ''}`}
                             type='submit'
-                            onClick={onToggleEdit}
                             value={isEditing ? 'Сохранить' : 'Редактировать'}
-                            disabled={isEditing && !isValid}
+                            disabled={isEditing && !isValid && (values === email)}
                         />
                     </div>
                     {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={clearContextAndLocalStorage}>Выйти из аккаунта</Link>}
+
+
                 </>
             )
             }
+
+
         </>
     )
 }
