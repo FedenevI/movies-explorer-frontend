@@ -16,7 +16,7 @@ export default function Form({ children }) {
     const setUserData = useCtx().setUserData;
     const { setIsErrorSubmit, setLoading, setLogin, setSuccess, setisEditing } = useCtx();
 
-    const { handleSubmit, reset, formState: { isValid, errors }, register } = useForm({
+    const { handleSubmit, reset, watch, formState: { isValid, errors }, register } = useForm({
         mode: 'onChange'
     });
 
@@ -116,7 +116,7 @@ export default function Form({ children }) {
     }, [pathname]);
 
     return (
-        <FormProvider {...{ register, formState: { isValid, errors } }}>
+        <FormProvider {...{ register, watch, formState: { isValid, errors } }}>
             <form noValidate onSubmit={handleSubmit(onSubmitButtone)} className='form' autoComplete="off">
                 {children}
             </form>

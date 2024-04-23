@@ -5,16 +5,27 @@ import { useCtx } from '../Context/Context';
 import { useEffect, useState } from 'react';
 
 export default function Input({ inputType, inputValue, isEditing, onToggleEdit, name, type, value, isButtoneError }) {
-    const { register, formState: { isValid, errors } } = useFormContext()
+    const { register, formState: { isValid, errors }, watch } = useFormContext()
     const { pathname } = useLocation()
     const { isErrorSubmit, loading, clearContextAndLocalStorage, succes, currentUser, email } = useCtx();
     const [values, setValues] = useState(inputValue);
+    const [disabledSeting, setDisabledSeting] = useState(true);
+
 
     const handleChange = (e) => {
         setValues(e.target.value);
     };
 
+    const watchName = watch('name');
+    const watchEmail = watch('email');
 
+    useEffect(() => {
+        if (watchName === currentUser && watchEmail === email) {
+            setDisabledSeting(true)
+        } else {
+            setDisabledSeting(false)
+        }
+    }, [watchName, watchEmail]);
 
 
     return (
@@ -80,10 +91,10 @@ export default function Input({ inputType, inputValue, isEditing, onToggleEdit, 
                         {<p className='input__message'>{isErrorSubmit && !isButtoneError ? isErrorSubmit : ''}</p>}
                         <input
                             className={`profile__button ${isEditing ? 'profile__button_save' : ''} 
-                        ${!isValid && isEditing ? 'profile__button_save_disabled' : ''}`}
+                        ${!isValid || disabledSeting ? 'profile__button_save_disabled' : ''}`}
                             type='submit'
-                            value={isEditing ? 'Сохранить' : 'Редактировать'}
-                            disabled={isEditing && !isValid && (values === email)}
+                            value={'Сохранить'}
+                            disabled={disabledSeting || !isValid}
                         />
                     </div>
                     {/* {!isEditing && <Link to='/' className='profile__subtitle_link' onClick={clearContextAndLocalStorage}>Выйти из аккаунта</Link>} */}

@@ -1,8 +1,7 @@
-import { createContext, useContext, useState, useMemo, useEffect } from "react";
+import { createContext, useContext, useState, useMemo, useEffect, useCallback } from "react";
 import { getToken, getCurrentUser, getEmail, getToggler, getSearchValues } from "../../utils/localStorage";
 import apiMovies from '../../utils/MoviesApi';
 import apiMain from "../../utils/MainApi";
-
 
 const CurrentUserContext = createContext({})
 export const useCtx = () => useContext(CurrentUserContext)
@@ -24,11 +23,17 @@ export const Context = ({ children }) => {
         savedMovieToggler: Boolean(getToggler('savedMovieToggler')),
         searchValue: getSearchValues('searchValues'),
         searchValueSaved: '',
-        searchFilterMovie: JSON.parse(localStorage.getItem('searchFilterMovie') || "[]"),
+        // searchFilterMovie: JSON.parse(localStorage.getItem('searchFilterMovie')) || [],
         isEditing: false,
     }
 
     const [state, setState] = useState(initialState);
+
+
+    // const setSearchFilterMovie = (value) => {
+    //     setState(prev => ({ ...prev, searchFilterMovie: value }))
+    //     localStorage.setItem('searchFilterMovie', JSON.stringify(value));
+    // }
 
     const setisEditing = (data) => {
         setState(prev => ({
@@ -77,6 +82,7 @@ export const Context = ({ children }) => {
 
     const setSearchValue = (value) => {
         setState(prev => ({ ...prev, searchValue: value }))
+        localStorage.setItem('searchValues', value);
     }
 
     const setUserData = (currentUser, email) => {
@@ -106,27 +112,12 @@ export const Context = ({ children }) => {
         setState(prev => ({ ...prev, loading: valueBolean, }));
     }
 
-    const loadMovies = async () => {
-        setState(prev => ({ ...prev, loading: true, }))
-        try {
-            await Promise.all([apiMovies.getMovies(), apiMain.getMovies(state.token)])
-                .then(([allMovies, userMovies]) => {
-                    setState(prev => ({
-                        ...prev,
-                        movies: allMovies,
-                        savedMovies: userMovies,
-                        serverError: false,
-                    }))
-                })
-        } catch (error) {
-            setState(prev => ({ ...prev, serverError: true }))
-            console.error(`Ошибка при загрузке фильмов ${error}`)
-        } finally {
-            setState(prev => ({ ...prev, loading: false, }))
-        }
+    const MoviesFilerSaved = () => {
+        setState(prev => ({
+            ...prev,
+            savedMovieToggler: !prev.savedMovieToggler
+        }))
     }
-
-
 
 
     const MoviesFilter = () => {
@@ -137,17 +128,81 @@ export const Context = ({ children }) => {
         localStorage.setItem('movieToggler', JSON.stringify(!state.movieToggler))
     }
 
+
+
+    // const loadMovies = async () => {
+    //     setState(prev => ({ ...prev, loading: true, }))
+    //     try {
+    //         await Promise.all([apiMovies.getMovies(), apiMain.getMovies(state.token)])
+    //             .then(([allMovies, userMovies]) => {
+    //                 setState(prev => ({
+    //                     ...prev,
+    //                     movies: allMovies,
+    //                     savedMovies: userMovies,
+    //                     serverError: false,
+    //                 }))
+    //             })
+    //     } catch (error) {
+    //         setState(prev => ({ ...prev, serverError: true }))
+    //         console.error(`Ошибка при загрузке фильмов ${error}`)
+    //     } finally {
+    //         setState(prev => ({ ...prev, loading: false, }))
+    //     }
+    // }
+    const [searchFilterMovie, setSearchFilterMovie] = useState([])
+    const [togleSearch, setTogleSearch] = useState([])
+
+    const loadMovies = async (value) => {
+        if (state.movies.length === 0 || state.savedMovies.length === 0) {
+            setState(prev => ({ ...prev, loading: true, }))
+            try {
+                await Promise.all([apiMovies.getMovies(), apiMain.getMovies(state.token)])
+                    .then(([allMovies, userMovies]) => {
+                        setMovies(allMovies)
+                        setSavedMovies(userMovies)
+                        const SearchResult = allMovies.filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase()))
+                        localStorage.setItem('searchFilterMovie', JSON.stringify(SearchResult));
+                        setSearchFilterMovie(JSON.parse(localStorage.getItem('searchFilterMovie')))
+                        const TogleSearchResult = SearchResult.filter((movie) => movie.duration <= 40)
+                        localStorage.setItem('searchFilterMovieTogle', JSON.stringify(TogleSearchResult));
+                        setTogleSearch(JSON.parse(localStorage.getItem('searchFilterMovieTogle')))
+
+                        console.log(state.searchValue)
+                    })
+            } catch (error) {
+                setState(prev => ({ ...prev, serverError: true }))
+                console.error(`Ошибка при загрузке фильмов ${error}`)
+            } finally {
+                setState(prev => ({ ...prev, loading: false, }))
+            }
+        } else {
+            const SearchResult = (JSON.parse(localStorage.getItem('movies'))).filter((movie) => movie.nameRU.toLowerCase().includes(value.toLowerCase()))
+            localStorage.setItem('searchFilterMovie', JSON.stringify(SearchResult));
+            setSearchFilterMovie(JSON.parse(localStorage.getItem('searchFilterMovie')))
+            const TogleSearchResult = SearchResult.filter((movie) => movie.duration <= 40)
+            localStorage.setItem('searchFilterMovieTogle', JSON.stringify(TogleSearchResult));
+            setTogleSearch(JSON.parse(localStorage.getItem('searchFilterMovieTogle')))
+
+        }
+    }
+
+    // const [filteredMoviesTogler, setFilteredMoviesTogler] = useState([]);
+
+    // useEffect(() => {
+    //     const result = state.movieToggler ? togleSearch : searchFilterMovie;
+    //     setFilteredMoviesTogler(result);
+    // }, [searchFilterMovie, togleSearch, state.movieToggler]);
+
+    // const filteredMoviesTogler = useMemo(() => {
+    //     return state.movieToggler ? togleSearch : searchFilterMovie
+    // }, [searchFilterMovie, state.movieToggler, togleSearch])
+
+
     const filteredMovies = useMemo(() => {
         return state.movieToggler ? state.movies.filter((movie) => movie.duration <= 40) : state.movies
     }, [state.movies, state.movieToggler])
 
 
-    const MoviesFilerSaved = () => {
-        setState(prev => ({
-            ...prev,
-            savedMovieToggler: !prev.savedMovieToggler
-        }))
-    }
 
     const MoviesFilerSavedFalse = () => {
         setState(prev => ({
@@ -159,6 +214,8 @@ export const Context = ({ children }) => {
     const filteredSavedMovies = useMemo(() => {
         return state.savedMovieToggler ? state.savedMovies.filter((movie) => movie.duration <= 40) : state.savedMovies;
     }, [state.savedMovies, state.savedMovieToggler]);
+
+
 
     const toggleSuccsess = (str) => {
         setState(prev => ({
@@ -184,9 +241,12 @@ export const Context = ({ children }) => {
         savedMovies: state.savedMovies,
         searchValue: state.searchValue,
         searchValueSaved: state.searchValueSaved,
-        searchFilterMovie: state.searchFilterMovie,
+        // searchFilterMovie: state.searchFilterMovie,
         filteredMovies,
         filteredSavedMovies,
+        searchFilterMovie,
+        // filteredMoviesTogler,
+        togleSearch,
         // методы:
         setLogin,
         setToken,

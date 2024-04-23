@@ -1,10 +1,11 @@
 import './Profile.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Form from '../Form/Form.jsx';
 import Input from '../Input/Input.jsx';
 import Header from '../Header/Header.jsx';
 import { useCtx } from '../Context/Context'
 import { Link } from 'react-router-dom';
+
 
 export default function Profile() {
     const { toggleSuccsess, isEditing, setisEditing, clearContextAndLocalStorage } = useCtx();

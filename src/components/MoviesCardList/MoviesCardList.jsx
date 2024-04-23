@@ -1,67 +1,71 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard.jsx';
 import Preloader from '../Preloader/Preloader.jsx';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useCtx } from '../Context/Context.jsx';
 import { useLocation } from 'react-router-dom';
 
+function WidthWindow() {
+    const [widthWindow, setWidthWindow] = useState(window.innerWidth);
+
+    useEffect(() => {
+        let tameOut;
+        function handleResize() {
+            clearTimeout(tameOut);
+            tameOut = setTimeout(() => {
+                setWidthWindow(window.innerWidth);
+            }, 1000);
+        }
+        window.addEventListener("resize", handleResize);
+        handleResize();
+        return () => {
+            window.removeEventListener("resize", handleResize);
+            clearTimeout(tameOut);
+        };
+
+    }, [widthWindow]);
+
+    return widthWindow;
+}
+
 export default function MoviesCardList() {
     const { pathname } = useLocation();
-    const { filteredMovies, filteredSavedMovies, searchValue, searchValueSaved, serverError, loading } = useCtx();
+    const { filteredMovies, filteredSavedMovies, searchValue, searchValueSaved, serverError, loading, searchFilterMovie, filteredMoviesTogler, togleSearch, movieToggler } = useCtx();
 
-    const [countMovies, setCountMovies] = useState(0);
-    function shownCount() {
-        const display = window.innerWidth
-        if (display > 1180) {
-            setCountMovies(12)
-        } else if (display > 767) {
-            setCountMovies(8)
-        } else {
-            setCountMovies(5)
+    const movieAllIn = movieToggler ? togleSearch : searchFilterMovie;
+
+    const width = WidthWindow();
+    const [Count, setCount] = useState(0);
+
+    const setting = useMemo(() => {
+        if (width > 1279) {
+            return { initial: 12, increment: 3 };
+        } else if (width >= 634) {
+            return { initial: 8, increment: 2 };
+        } else if (width < 634) {
+            return { initial: 5, increment: 2 };
         }
-    }
+    }, [width]);
 
     useEffect(() => {
-        shownCount()
-    }, [])
+        setCount(Math.min(setting.initial, movieAllIn.length));
 
-    const resizeAction = () => {
-        setTimeout(() => {
-            shownCount();
-        }, 500);
-    }
+    }, [movieAllIn.length, setting.initial]);
 
-    useEffect(() => {
-        shownCount();
-        window.addEventListener('resize', resizeAction)
-        return () => {
-            document.removeEventListener("resize", resizeAction);
-        };
-    }, []);
+    const ShowMore = () => {
+        setCount((prevCount) =>
+            Math.min(prevCount + setting.increment, movieAllIn.length)
+        );
 
-    function showMore() {
-        const display = window.innerWidth
-        if (display > 1180) {
-            setCountMovies(countMovies + 3)
-        } else if (display > 767) {
-            setCountMovies(countMovies + 2)
-        } else {
-            setCountMovies(countMovies + 2)
-        }
-    }
+    };
 
-    useEffect(() => {
-        localStorage.setItem('movies', JSON.stringify(filteredMovies));
-        localStorage.setItem('savedMovies', JSON.stringify(filteredSavedMovies));
-    }, [filteredMovies, filteredSavedMovies]);
 
     // const searchFilterMovie = filteredMovies.filter((movie) => movie.nameRU.toLowerCase().includes(searchValue.toLowerCase()))
 
-    const searchFilterMovie = JSON.parse(localStorage.getItem('searchFilterMovie'))
-
+    // const searchFilterMovie = JSON.parse(localStorage.getItem('searchFilterMovie'))
 
     const searchFilterMovieSaved = filteredSavedMovies.filter((movie) => movie.nameRU.toLowerCase().includes(searchValueSaved.toLowerCase()))
-
+    // console.log(countMovies)
     return (
         <section className="elements">
             {pathname === '/movies' ? (
@@ -73,21 +77,21 @@ export default function MoviesCardList() {
                             <p className="elements__error">Чтобы увидеть список фильмов, выполните поиск</p>
                         ) : serverError ? (
                             <p className="elements__error">Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен.</p>
-                        ) : searchFilterMovie.length === 0 ? (
+                        ) : movieAllIn.length === 0 ? (
                             <p className="elements__error">Ничего не найдено</p>
                         ) : (
                             <>
                                 <ul className="elements__list">
-                                    {searchFilterMovie
-                                        .slice(0, countMovies)
+                                    {movieAllIn
+                                        .slice(0, Count)
                                         .map(movies => (
                                             <li className='element' key={movies.id}>
                                                 <MoviesCard  {...movies} />
                                             </li>
                                         ))}
                                 </ul>
-                                {countMovies < searchFilterMovie.length && (
-                                    <button type="button" onClick={showMore} className='elements__more'>Ещё</button>
+                                {Count < movieAllIn.length && (
+                                    <button type="button" onClick={ShowMore} className='elements__more'>Ещё</button>
                                 )}
                             </>
                         )}
@@ -120,6 +124,3 @@ export default function MoviesCardList() {
     )
 
 }
-
-
-

@@ -20,10 +20,6 @@ export default function SearchForm() {
     }, [pathname]);
 
     const handleMovieSearchChange = (e) => {
-        if (!searchedOnce) {
-            loadMovies()
-            setSearchedOnce(true);
-        }
         setMovieSearchInput(e.target.value);
         setError('');
     };
@@ -35,15 +31,11 @@ export default function SearchForm() {
             setError('Нужно ввести ключевое слово');
         }
         if (pathname === '/movies') {
-            setSearchValue(movieSearchInput);
-            localStorage.setItem('searchValues', movieSearchInput);
-            const searchFilterMovie = filteredMovies.filter((movie) =>
-                movie.nameRU.toLowerCase().includes(localStorage.getItem('searchValues').toLowerCase()));
-            localStorage.setItem('searchFilterMovie', JSON.stringify(searchFilterMovie));
+            setSearchValue(movieSearchInput)
+            loadMovies(movieSearchInput)
         } else if (pathname === '/saved-movies') {
             setsearchValueSaved(movieSearchInput)
         }
-
     };
 
 
@@ -66,4 +58,3 @@ export default function SearchForm() {
         </section>
     );
 }
-
