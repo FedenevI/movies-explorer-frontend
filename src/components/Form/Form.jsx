@@ -14,9 +14,9 @@ export default function Form({ children }) {
     const setToken = useCtx().setToken;
     const token = useCtx().token;
     const setUserData = useCtx().setUserData;
-    const { setIsErrorSubmit, setLoading } = useCtx();
+    const { setIsErrorSubmit, setLoading, setLogin, setSuccess, setisEditing } = useCtx();
 
-    const { handleSubmit, reset, formState: { isValid, errors }, register } = useForm({
+    const { handleSubmit, reset, watch, formState: { isValid, errors }, register } = useForm({
         mode: 'onChange'
     });
 
@@ -58,6 +58,7 @@ export default function Form({ children }) {
             const res = await apiMain.authorization(data.email, data.password)
             localStorage.setItem('jwt', res.token)
             setToken(res.token)
+            setLogin(true)
             let userData = await apiMain.getUserData(res.token)
             localStorage.setItem('currentUser', userData.name)
             localStorage.setItem('email', userData.email)
@@ -74,28 +75,48 @@ export default function Form({ children }) {
     }
 
     const onEditProfile = async (data) => {
-        setLoading(true)
+        setLoading(true);
         try {
-            const userData = await apiMain.setUserInfo(data.name, data.email, token)
-            localStorage.setItem('currentUser', userData.name)
-            localStorage.setItem('email', userData.email)
-            setUserData(userData.name, userData.email)
-            console.log(userData)
+            const currentUser = localStorage.getItem('currentUser');
+            const currentEmail = localStorage.getItem('email');
+            if (currentUser !== data.name || currentEmail !== data.email) {
+                const userData = await apiMain.setUserInfo(data.name, data.email, token);
+                localStorage.setItem('currentUser', userData.name);
+                localStorage.setItem('email', userData.email);
+                setUserData(userData.name, userData.email);
+                setSuccess(true);
+                setIsErrorSubmit('Успешно');
+                setTimeout(() => {
+                    setIsErrorSubmit('');
+                }, 2000);
+            } else {
+                setIsErrorSubmit('Отправляемые данные и текущие данные идентичны.');
+                setTimeout(() => {
+                    setIsErrorSubmit('');
+                }, 2000);
+            }
+            setTimeout(() => {
+                setisEditing(false);
+            }, 2000);
+
         } catch (err) {
-            console.error(`Ошибка при редактировании ${err}`)
-            setIsErrorSubmit(errorsList(err))
+            console.error(`Ошибка при редактировании ${err}`);
+            setIsErrorSubmit(errorsList(err));
         } finally {
-            setLoading(false)
-            reset()
+            setLoading(false);
+            reset();
         }
     }
 
+
+
     useEffect(() => {
+        setisEditing(false)
         setIsErrorSubmit('');
     }, [pathname]);
 
     return (
-        <FormProvider {...{ register, formState: { isValid, errors } }}>
+        <FormProvider {...{ register, watch, formState: { isValid, errors } }}>
             <form noValidate onSubmit={handleSubmit(onSubmitButtone)} className='form' autoComplete="off">
                 {children}
             </form>

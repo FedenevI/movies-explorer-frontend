@@ -99,6 +99,20 @@
     margin-bottom: 16px;
 }
 
+.profile__button_edit {
+    font-weight: 400;
+    font-size: 13px;
+    text-align: center;
+    color: #fff;
+    background: #202020;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    margin: 0 auto;
+    margin-bottom: 16px;
+    margin-top: 183px;
+}
+
 @media screen and (max-width: 767px) {
     .profile__button {
         font-weight: 400;
